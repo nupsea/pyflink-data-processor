@@ -8,7 +8,8 @@ readme = "README.md"
 packages = [{include = "pyflink_data_processor"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.9,<3.11"
+apache-flink = "1.17.1"
 
 
 [build-system]
