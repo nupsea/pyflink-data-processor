@@ -3,8 +3,14 @@ import logging
 import sys
 
 from pyflink.common import Row
-from pyflink.table import (DataTypes, EnvironmentSettings, FormatDescriptor,
-                           Schema, TableDescriptor, TableEnvironment)
+from pyflink.table import (
+    DataTypes,
+    EnvironmentSettings,
+    FormatDescriptor,
+    Schema,
+    TableDescriptor,
+    TableEnvironment,
+)
 from pyflink.table.expressions import col, lit
 from pyflink.table.udf import udtf
 
@@ -106,9 +112,14 @@ def word_count(input_path, output_path):
             yield Row(s)
 
     # compute word count
-    tab.flat_map(split).alias("word").group_by(col("word")).select(
-        col("word"), lit(1).count
-    ).execute_insert("sink").wait()
+    (
+        tab.flat_map(split)
+        .alias("word")
+        .group_by(col("word"))
+        .select(col("word"), lit(1).count)
+        .execute_insert("sink")
+        .wait()
+    )
     # remove .wait if submitting to a remote cluster, refer to
     # https://nightlies.apache.org/flink/flink-docs-stable/docs/dev/python/faq/#wait-for-jobs-to-finish-when-executing-jobs-in-mini-cluster
     # for more details
